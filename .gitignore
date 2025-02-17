@@ -1,0 +1,39 @@
+# IDE
+.idea
+.vscode
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+/public/index.html
+/public/assets-manifest.json
+/public/index.js
+/public/index.js.LICENSE.txt
+/public/index.js.map
+/public/index.*.js
+/public/index.*.js.map
+/public/index.*.js.LICENSE.txt
+/public/service-worker.js
+
+.idea/
+.env
+
+gitignore/
+
+homepage-localhost.x5.ru.pem
+homepage-localhost.x5.ru-key.pem
