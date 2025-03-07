@@ -6,6 +6,7 @@ class Node {
     }
 }
 
+// BST - Binary Search Tree
 const root = new Node(4);
 root.left = new Node(2);
 root.right = new Node(6);
