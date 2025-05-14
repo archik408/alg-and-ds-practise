@@ -1,3 +1,4 @@
+import { MinHeap } from '../trees/heap';
 // Алгоритм поиска кратчайшего пути (Дейкстры) с очередью с приоритетами
 // (сортируем массив, чтобы всегда работать с кратчайшими расстояниями)
 function dijkstra(graph, start) {
@@ -48,7 +49,7 @@ function getPath(previous, end) {
         path.push(cursor);
         cursor = previous[cursor];
     }
-
+    path.push(cursor);
     return path.reverse();
 }
 
@@ -63,7 +64,7 @@ const graph = {
 };
 
 const start = 'A';
-const { distances, previous } = dijkstra(graph, start);
+const { distances, previous } = prodDijkstra(graph, start); // dijkstra(graph, start);
 
 console.log('Расстояния от вершины', start, ':', distances);
 console.log('Предыдущие вершины:', previous);
@@ -73,3 +74,42 @@ const end = 'F';
 const path = getPath(previous, end);
 console.log('Кратчайший путь от', start, 'до', end, ':', path);
 console.log('Длина пути:', distances[end]);
+
+// С двоичной кучей, вместо массива с сортировкой
+function prodDijkstra(graph, start) {
+    const distances = {};
+    const previous = {};
+    const visited = new Set();
+    const heap = new MinHeap();
+
+    for (const vertex in graph) {
+        distances[vertex] = Infinity;
+        previous[vertex] = null;
+    }
+
+    distances[start] = 0;
+    heap.insert({ current: start, value: distances[start] })
+
+    while(!heap.isEmpty()) {
+        const { current, value } = heap.popMin();
+        if (visited.has(current)) {
+            continue;
+        }
+
+        visited.add(current);
+
+        for (const vertex in graph[current]) {
+            const distance = graph[current][vertex] + value;
+
+            if (distances[vertex] > distance) {
+                distances[vertex] = distance;
+                previous[vertex] = current;
+                heap.insert({ current: vertex, value: distance });
+            }
+        }
+
+    }
+
+    return { distances, previous };
+
+}

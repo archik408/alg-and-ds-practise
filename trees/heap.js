@@ -23,7 +23,7 @@ class MinHeap {
         let currentIndex = index;
         let parentIndex = this.getParentIndex(currentIndex);
 
-        while (currentIndex && this.heap[currentIndex] < this.heap[parentIndex]) {
+        while (currentIndex && this.heap[currentIndex]?.value < this.heap[parentIndex]?.value) {
             [this.heap[currentIndex], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[currentIndex]];
             currentIndex = parentIndex;
             parentIndex = this.getParentIndex(currentIndex);
@@ -39,11 +39,11 @@ class MinHeap {
         // Находим минимальный в тройке
         let smallestIndex = currentIndex;
 
-        if (leftIndex < this.heap.length && this.heap[leftIndex] < this.heap[smallestIndex]) {
+        if (leftIndex < this.heap.length && this.heap[leftIndex]?.value < this.heap[smallestIndex]?.value) {
             smallestIndex = leftIndex;
         }
 
-        if (rightIndex < this.heap.length && this.heap[rightIndex] < this.heap[smallestIndex]) {
+        if (rightIndex < this.heap.length && this.heap[rightIndex]?.value < this.heap[smallestIndex]?.value) {
             smallestIndex = rightIndex;
         }
 
@@ -54,8 +54,11 @@ class MinHeap {
 
     }
 
-    insert(value) {
-        this.heap.push(value);
+    insert(node) {
+        if (!node.hasOwnProperty('value')) {
+            throw new Error('Wrong node value');
+        }
+        this.heap.push(node);
         this.heapifyUp(this.heap.length - 1);
     }
 
@@ -85,12 +88,12 @@ class MinHeap {
 
 const heap = new MinHeap();
 
-heap.insert(3);
-heap.insert(1);
-heap.insert(6);
-heap.insert(5);
-heap.insert(2);
-heap.insert(4);
+heap.insert({ value: 3});
+heap.insert({ value: 2});
+heap.insert({ value: 4});
+heap.insert({ value: 6});
+heap.insert({ value: 5});
+heap.insert({ value: 1});
 
 console.log(heap.popMin()); // 1
 console.log(heap.popMin()); // 2
@@ -98,3 +101,5 @@ console.log(heap.popMin()); // 3
 console.log(heap.popMin()); // 4
 console.log(heap.popMin()); // 5
 console.log(heap.popMin()); // 6
+
+export { MinHeap };
